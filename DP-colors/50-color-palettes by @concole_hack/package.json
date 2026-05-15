@@ -1,15 +1,36 @@
 {
-  "name": "50-color-palettes",
-  "displayName": "50 Color Palettes",
-  "description": "50 профессиональных цветовых палитр для VS Code",
+  "name": "dp-colors",
+  "displayName": "🎨 DP-colors",
+  "description": "✨ 50+ элегантных цветовых палитр для VS Code | Мгновенная смена темы, создание своих палитр, экспорт/импорт",
   "version": "1.0.0",
-  "publisher": "colorpalettes",
+  "publisher": "DanielLasmskov",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DanielLasmskov/dp-colors"
+  },
+  "homepage": "https://github.com/DanielLasmskov/dp-colors",
+  "bugs": {
+    "url": "https://github.com/DanielLasmskov/dp-colors/issues"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Themes",
     "Other"
+  ],
+  "keywords": [
+    "theme",
+    "color palette",
+    "dark theme",
+    "light theme",
+    "custom theme",
+    "colorful",
+    "palettes",
+    "vscode-theme",
+    "dp-colors"
   ],
   "activationEvents": [
     "onView:colorPalettesView",
@@ -30,26 +51,76 @@
       "color-palettes-sidebar": [
         {
           "id": "colorPalettesView",
-          "name": "Color Palettes"
+          "name": "🎨 Color Palettes"
         }
       ]
     },
     "commands": [
       {
-        "command": "colorPalettes.applyTheme",
-        "title": "Apply Color Palette"
+        "command": "colorPalettes.openView",
+        "title": "🎨 Open Color Palettes",
+        "category": "DP-colors"
       },
       {
-        "command": "colorPalettes.refreshPalettes",
-        "title": "Refresh Palettes"
+        "command": "colorPalettes.applyTheme",
+        "title": "✨ Apply Theme",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.searchPalettes",
+        "title": "🔍 Search Palettes",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.randomTheme",
+        "title": "🎲 Random Theme",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.cycleThemes",
+        "title": "🔄 Cycle Themes",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.toggleAutoCycle",
+        "title": "⏱️ Toggle Auto-Cycle",
+        "category": "DP-colors"
       },
       {
         "command": "colorPalettes.exportPalette",
-        "title": "Export Palette"
+        "title": "💾 Export Palette",
+        "category": "DP-colors"
       },
       {
-        "command": "colorPalettes.openView",
-        "title": "Open Color Palettes"
+        "command": "colorPalettes.importPalette",
+        "title": "📥 Import Palette",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.createCustomPalette",
+        "title": "🖌️ Create Custom Palette",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.deleteCustomPalette",
+        "title": "🗑️ Delete Custom Palette",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.showPaletteInfo",
+        "title": "ℹ️ Show Palette Info",
+        "category": "DP-colors"
+      },
+      {
+        "command": "colorPalettes.refreshPalettes",
+        "title": "🔄 Refresh Palettes",
+        "category": "DP-colors",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "colorPalettes.resetToDefault",
+        "title": "⚙️ Reset to Default",
+        "category": "DP-colors"
       }
     ],
     "menus": {
@@ -59,15 +130,56 @@
           "group": "navigation",
           "when": "view == colorPalettesView"
         }
+      ],
+      "view/item/context": [
+        {
+          "command": "colorPalettes.applyTheme",
+          "group": "inline",
+          "when": "viewItem == palette"
+        },
+        {
+          "command": "colorPalettes.showPaletteInfo",
+          "group": "group1",
+          "when": "viewItem == palette"
+        },
+        {
+          "command": "colorPalettes.exportPalette",
+          "group": "group1",
+          "when": "viewItem == palette"
+        },
+        {
+          "command": "colorPalettes.deleteCustomPalette",
+          "group": "group2",
+          "when": "viewItem == palette && viewItem =~ /custom/"
+        }
       ]
     },
+    "keybindings": [
+      {
+        "command": "colorPalettes.randomTheme",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r"
+      },
+      {
+        "command": "colorPalettes.cycleThemes",
+        "key": "ctrl+alt+n",
+        "mac": "cmd+alt+n"
+      },
+      {
+        "command": "colorPalettes.searchPalettes",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f"
+      }
+    ],
     "configuration": {
-      "title": "50 Color Palettes",
+      "title": "🎨 DP-colors",
       "properties": {
         "colorPalettes.animationSpeed": {
           "type": "number",
           "default": 300,
-          "description": "Animation speed in milliseconds"
+          "minimum": 0,
+          "maximum": 2000,
+          "description": "⚡ Animation speed when switching themes (milliseconds)"
         },
         "colorPalettes.defaultView": {
           "type": "string",
@@ -76,258 +188,270 @@
             "list"
           ],
           "default": "grid",
-          "description": "Default view mode"
+          "description": "📐 Default view mode for the palette explorer"
+        },
+        "colorPalettes.autoCycleInterval": {
+          "type": "number",
+          "default": 30,
+          "minimum": 5,
+          "maximum": 300,
+          "description": "⏱️ Auto-cycle interval in seconds"
+        },
+        "colorPalettes.enableAnimations": {
+          "type": "boolean",
+          "default": true,
+          "description": "✨ Enable/disable theme transition animations"
         }
       }
     },
     "themes": [
       {
-        "label": "Color Palettes - Midnight Dream",
+        "label": "🌙 DP-colors - Midnight Dream",
         "path": "./themes/midnight_dream.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Sunset Blaze",
+        "label": "🌅 DP-colors - Sunset Blaze",
         "path": "./themes/sunset_blaze.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Ocean Deep",
+        "label": "🌊 DP-colors - Ocean Deep",
         "path": "./themes/ocean_deep.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Forest Mist",
+        "label": "🌲 DP-colors - Forest Mist",
         "path": "./themes/forest_mist.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Cherry Blossom",
+        "label": "🌸 DP-colors - Cherry Blossom",
         "path": "./themes/cherry_blossom.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Cyber Punk",
+        "label": "🤖 DP-colors - Cyber Punk",
         "path": "./themes/cyber_punk.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Arctic Frost",
+        "label": "❄️ DP-colors - Arctic Frost",
         "path": "./themes/arctic_frost.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Lavender Field",
+        "label": "🪻 DP-colors - Lavender Field",
         "path": "./themes/lavender_field.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Coffee Break",
+        "label": "☕ DP-colors - Coffee Break",
         "path": "./themes/coffee_break.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Neon Nights",
+        "label": "💚 DP-colors - Neon Nights",
         "path": "./themes/neon_nights.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Sage Garden",
+        "label": "🌿 DP-colors - Sage Garden",
         "path": "./themes/sage_garden.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Royal Purple",
+        "label": "👑 DP-colors - Royal Purple",
         "path": "./themes/royal_purple.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Aurora Borealis",
+        "label": "✨ DP-colors - Aurora Borealis",
         "path": "./themes/aurora_borealis.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Monochrome Elegance",
+        "label": "⚫ DP-colors - Monochrome Elegance",
         "path": "./themes/monochrome_elegance.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Retro Wave",
+        "label": "📼 DP-colors - Retro Wave",
         "path": "./themes/retro_wave.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Honey Drizzle",
+        "label": "🍯 DP-colors - Honey Drizzle",
         "path": "./themes/honey_drizzle.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Deep Space",
+        "label": "🚀 DP-colors - Deep Space",
         "path": "./themes/deep_space.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Mint Fresh",
+        "label": "🌱 DP-colors - Mint Fresh",
         "path": "./themes/mint_fresh.json",
         "uiTheme": "vs"
       },
       {
-        "label": "Color Palettes - Volcanic Red",
+        "label": "🌋 DP-colors - Volcanic Red",
         "path": "./themes/volcanic_red.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Glacier Blue",
+        "label": "🧊 DP-colors - Glacier Blue",
         "path": "./themes/glacier_blue.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Autumn Leaves",
+        "label": "🍂 DP-colors - Autumn Leaves",
         "path": "./themes/autumn_leaves.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Neon Dream",
+        "label": "💜 DP-colors - Neon Dream",
         "path": "./themes/neon_dream.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Pearl White",
+        "label": "🪶 DP-colors - Pearl White",
         "path": "./themes/pearl_white.json",
         "uiTheme": "vs"
       },
       {
-        "label": "Color Palettes - Night Owl",
+        "label": "🦉 DP-colors - Night Owl",
         "path": "./themes/night_owl.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Sakura Morning",
+        "label": "🌸 DP-colors - Sakura Morning",
         "path": "./themes/sakura_morning.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Toxic Waste",
+        "label": "🧪 DP-colors - Toxic Waste",
         "path": "./themes/toxic_waste.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Winter Wonderland",
+        "label": "⛄ DP-colors - Winter Wonderland",
         "path": "./themes/winter_wonderland.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Desert Rose",
+        "label": "🌹 DP-colors - Desert Rose",
         "path": "./themes/desert_rose.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Matrix Code",
+        "label": "💚 DP-colors - Matrix Code",
         "path": "./themes/matrix_code.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Candy Shop",
+        "label": "🍬 DP-colors - Candy Shop",
         "path": "./themes/candy_shop.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Stormy Night",
+        "label": "⛈️ DP-colors - Stormy Night",
         "path": "./themes/stormy_night.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Bubblegum",
+        "label": "🫧 DP-colors - Bubblegum",
         "path": "./themes/bubblegum.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Golden Hour",
+        "label": "🌇 DP-colors - Golden Hour",
         "path": "./themes/golden_hour.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Emerald City",
+        "label": "💚 DP-colors - Emerald City",
         "path": "./themes/emerald_city.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Electric Blue",
+        "label": "💙 DP-colors - Electric Blue",
         "path": "./themes/electric_blue.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Gray Scale",
+        "label": "◻️ DP-colors - Gray Scale",
         "path": "./themes/gray_scale.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Grape Soda",
+        "label": "🍇 DP-colors - Grape Soda",
         "path": "./themes/grape_soda.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Coral Reef",
+        "label": "🪸 DP-colors - Coral Reef",
         "path": "./themes/coral_reef.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Silver Chrome",
+        "label": "⚪ DP-colors - Silver Chrome",
         "path": "./themes/silver_chrome.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Blue Lagoon",
+        "label": "💙 DP-colors - Blue Lagoon",
         "path": "./themes/blue_lagoon.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Lavender Haze",
+        "label": "💜 DP-colors - Lavender Haze",
         "path": "./themes/lavender_haze.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Tangerine Dream",
+        "label": "🍊 DP-colors - Tangerine Dream",
         "path": "./themes/tangerine_dream.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Deep Purple",
+        "label": "💜 DP-colors - Deep Purple",
         "path": "./themes/deep_purple.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Spring Meadow",
+        "label": "🌱 DP-colors - Spring Meadow",
         "path": "./themes/spring_meadow.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Sunflower",
+        "label": "🌻 DP-colors - Sunflower",
         "path": "./themes/sunflower.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Midnight Blue",
+        "label": "💙 DP-colors - Midnight Blue",
         "path": "./themes/midnight_blue.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Peach Smoothie",
+        "label": "🍑 DP-colors - Peach Smoothie",
         "path": "./themes/peach_smoothie.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Ice Cream",
+        "label": "🍦 DP-colors - Ice Cream",
         "path": "./themes/ice_cream.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Molten Lava",
+        "label": "🔥 DP-colors - Molten Lava",
         "path": "./themes/molten_lava.json",
         "uiTheme": "vs-dark"
       },
       {
-        "label": "Color Palettes - Cloudy Sky",
+        "label": "☁️ DP-colors - Cloudy Sky",
         "path": "./themes/cloudy_sky.json",
         "uiTheme": "vs-dark"
       }
@@ -335,7 +459,9 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "node esbuild.js"
+    "compile": "node esbuild.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.85.0",
